@@ -1,0 +1,23 @@
+{
+  "province": "北京市",
+  "year": 2025,
+  "subjectTrack": "演示",
+  "source": "演示数据",
+  "sourceUrl": "",
+  "records": [
+    {
+      "schoolCode": "DEMO0001",
+      "schoolName": "示例大学甲",
+      "minScore": 680,
+      "minRank": 500,
+      "batch": "本科批"
+    },
+    {
+      "schoolCode": "DEMO0002",
+      "schoolName": "示例大学乙",
+      "minScore": 685,
+      "minRank": 400,
+      "batch": "本科批"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "year": 2025,
+    "source": "演示数据 — 请运行 scripts/fetch_major_rankings.py 获取真实排名",
+    "sourceUrl": "https://www.shanghairanking.cn/rankings/bcmr/2025",
+    "totalMajors": 2,
+    "rankedMajors": 1,
+    "demo": true
+  },
+  "majors": [
+    {
+      "code": "080901",
+      "name": "计算机科学与技术",
+      "discipline": "工学",
+      "majorClass": "计算机类",
+      "path": [
+        "工学",
+        "计算机类",
+        "计算机科学与技术"
+      ],
+      "schoolCount": 3,
+      "ranked": true
+    },
+    {
+      "code": "020101",
+      "name": "经济学",
+      "discipline": "经济学",
+      "majorClass": "经济学类",
+      "path": [
+        "经济学",
+        "经济学类",
+        "经济学"
+      ],
+      "schoolCount": 2,
+      "ranked": false
+    }
+  ]
+}

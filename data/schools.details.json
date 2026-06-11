@@ -1,0 +1,272 @@
+{
+  "DEMO0001": {
+    "department": "教育部（示例）",
+    "location": "北京市",
+    "provinceShort": "北京",
+    "remark": "演示数据，非真实院校信息",
+    "is985": true,
+    "is211": true,
+    "isDoubleFirstClass": true,
+    "website": "https://example.edu.cn",
+    "intro": "【演示数据】此为开源仓库内置的模拟院校条目，仅供验证地图与筛选功能。获取真实数据请见 DATA_SOURCES.md 与 scripts/README.md。",
+    "majors": [
+      "示例专业A",
+      "示例专业B"
+    ],
+    "photo": "",
+    "logo": "assets/logos/DEMO0001.svg",
+    "baikeUrl": ""
+  },
+  "DEMO0002": {
+    "department": "教育部（示例）",
+    "location": "北京市",
+    "provinceShort": "北京",
+    "remark": "演示数据，非真实院校信息",
+    "is985": true,
+    "is211": true,
+    "isDoubleFirstClass": true,
+    "website": "https://example.edu.cn",
+    "intro": "【演示数据】此为开源仓库内置的模拟院校条目，仅供验证地图与筛选功能。获取真实数据请见 DATA_SOURCES.md 与 scripts/README.md。",
+    "majors": [
+      "示例专业A",
+      "示例专业B"
+    ],
+    "photo": "",
+    "logo": "assets/logos/DEMO0002.svg",
+    "baikeUrl": ""
+  },
+  "DEMO0011": {
+    "department": "教育部（示例）",
+    "location": "上海市",
+    "provinceShort": "上海",
+    "remark": "演示数据，非真实院校信息",
+    "is985": false,
+    "is211": true,
+    "isDoubleFirstClass": false,
+    "website": "https://example.edu.cn",
+    "intro": "【演示数据】此为开源仓库内置的模拟院校条目，仅供验证地图与筛选功能。获取真实数据请见 DATA_SOURCES.md 与 scripts/README.md。",
+    "majors": [
+      "示例专业A",
+      "示例专业B"
+    ],
+    "photo": "",
+    "logo": "assets/logos/DEMO0011.svg",
+    "baikeUrl": ""
+  },
+  "DEMO0003": {
+    "department": "教育部（示例）",
+    "location": "上海市",
+    "provinceShort": "上海",
+    "remark": "演示数据，非真实院校信息",
+    "is985": true,
+    "is211": true,
+    "isDoubleFirstClass": true,
+    "website": "https://example.edu.cn",
+    "intro": "【演示数据】此为开源仓库内置的模拟院校条目，仅供验证地图与筛选功能。获取真实数据请见 DATA_SOURCES.md 与 scripts/README.md。",
+    "majors": [
+      "示例专业A",
+      "示例专业B"
+    ],
+    "photo": "",
+    "logo": "assets/logos/DEMO0003.svg",
+    "baikeUrl": ""
+  },
+  "DEMO0005": {
+    "department": "教育部（示例）",
+    "location": "江苏省",
+    "provinceShort": "江苏",
+    "remark": "演示数据，非真实院校信息",
+    "is985": true,
+    "is211": true,
+    "isDoubleFirstClass": true,
+    "website": "https://example.edu.cn",
+    "intro": "【演示数据】此为开源仓库内置的模拟院校条目，仅供验证地图与筛选功能。获取真实数据请见 DATA_SOURCES.md 与 scripts/README.md。",
+    "majors": [
+      "示例专业A",
+      "示例专业B"
+    ],
+    "photo": "",
+    "logo": "assets/logos/DEMO0005.svg",
+    "baikeUrl": ""
+  },
+  "DEMO0004": {
+    "department": "教育部（示例）",
+    "location": "浙江省",
+    "provinceShort": "浙江",
+    "remark": "演示数据，非真实院校信息",
+    "is985": true,
+    "is211": true,
+    "isDoubleFirstClass": true,
+    "website": "https://example.edu.cn",
+    "intro": "【演示数据】此为开源仓库内置的模拟院校条目，仅供验证地图与筛选功能。获取真实数据请见 DATA_SOURCES.md 与 scripts/README.md。",
+    "majors": [
+      "示例专业A",
+      "示例专业B"
+    ],
+    "photo": "",
+    "logo": "assets/logos/DEMO0004.svg",
+    "baikeUrl": ""
+  },
+  "DEMO0015": {
+    "department": "教育部（示例）",
+    "location": "安徽省",
+    "provinceShort": "安徽",
+    "remark": "演示数据，非真实院校信息",
+    "is985": false,
+    "is211": true,
+    "isDoubleFirstClass": false,
+    "website": "https://example.edu.cn",
+    "intro": "【演示数据】此为开源仓库内置的模拟院校条目，仅供验证地图与筛选功能。获取真实数据请见 DATA_SOURCES.md 与 scripts/README.md。",
+    "majors": [
+      "示例专业A",
+      "示例专业B"
+    ],
+    "photo": "",
+    "logo": "assets/logos/DEMO0015.svg",
+    "baikeUrl": ""
+  },
+  "DEMO0010": {
+    "department": "教育部（示例）",
+    "location": "山东省",
+    "provinceShort": "山东",
+    "remark": "演示数据，非真实院校信息",
+    "is985": true,
+    "is211": true,
+    "isDoubleFirstClass": true,
+    "website": "https://example.edu.cn",
+    "intro": "【演示数据】此为开源仓库内置的模拟院校条目，仅供验证地图与筛选功能。获取真实数据请见 DATA_SOURCES.md 与 scripts/README.md。",
+    "majors": [
+      "示例专业A",
+      "示例专业B"
+    ],
+    "photo": "",
+    "logo": "assets/logos/DEMO0010.svg",
+    "baikeUrl": ""
+  },
+  "DEMO0006": {
+    "department": "教育部（示例）",
+    "location": "湖北省",
+    "provinceShort": "湖北",
+    "remark": "演示数据，非真实院校信息",
+    "is985": true,
+    "is211": true,
+    "isDoubleFirstClass": true,
+    "website": "https://example.edu.cn",
+    "intro": "【演示数据】此为开源仓库内置的模拟院校条目，仅供验证地图与筛选功能。获取真实数据请见 DATA_SOURCES.md 与 scripts/README.md。",
+    "majors": [
+      "示例专业A",
+      "示例专业B"
+    ],
+    "photo": "",
+    "logo": "assets/logos/DEMO0006.svg",
+    "baikeUrl": ""
+  },
+  "DEMO0014": {
+    "department": "教育部（示例）",
+    "location": "湖北省",
+    "provinceShort": "湖北",
+    "remark": "演示数据，非真实院校信息",
+    "is985": false,
+    "is211": true,
+    "isDoubleFirstClass": false,
+    "website": "https://example.edu.cn",
+    "intro": "【演示数据】此为开源仓库内置的模拟院校条目，仅供验证地图与筛选功能。获取真实数据请见 DATA_SOURCES.md 与 scripts/README.md。",
+    "majors": [
+      "示例专业A",
+      "示例专业B"
+    ],
+    "photo": "",
+    "logo": "assets/logos/DEMO0014.svg",
+    "baikeUrl": ""
+  },
+  "DEMO0007": {
+    "department": "教育部（示例）",
+    "location": "广东省",
+    "provinceShort": "广东",
+    "remark": "演示数据，非真实院校信息",
+    "is985": true,
+    "is211": true,
+    "isDoubleFirstClass": true,
+    "website": "https://example.edu.cn",
+    "intro": "【演示数据】此为开源仓库内置的模拟院校条目，仅供验证地图与筛选功能。获取真实数据请见 DATA_SOURCES.md 与 scripts/README.md。",
+    "majors": [
+      "示例专业A",
+      "示例专业B"
+    ],
+    "photo": "",
+    "logo": "assets/logos/DEMO0007.svg",
+    "baikeUrl": ""
+  },
+  "DEMO0008": {
+    "department": "教育部（示例）",
+    "location": "四川省",
+    "provinceShort": "四川",
+    "remark": "演示数据，非真实院校信息",
+    "is985": true,
+    "is211": true,
+    "isDoubleFirstClass": true,
+    "website": "https://example.edu.cn",
+    "intro": "【演示数据】此为开源仓库内置的模拟院校条目，仅供验证地图与筛选功能。获取真实数据请见 DATA_SOURCES.md 与 scripts/README.md。",
+    "majors": [
+      "示例专业A",
+      "示例专业B"
+    ],
+    "photo": "",
+    "logo": "assets/logos/DEMO0008.svg",
+    "baikeUrl": ""
+  },
+  "DEMO0009": {
+    "department": "教育部（示例）",
+    "location": "陕西省",
+    "provinceShort": "陕西",
+    "remark": "演示数据，非真实院校信息",
+    "is985": true,
+    "is211": true,
+    "isDoubleFirstClass": true,
+    "website": "https://example.edu.cn",
+    "intro": "【演示数据】此为开源仓库内置的模拟院校条目，仅供验证地图与筛选功能。获取真实数据请见 DATA_SOURCES.md 与 scripts/README.md。",
+    "majors": [
+      "示例专业A",
+      "示例专业B"
+    ],
+    "photo": "",
+    "logo": "assets/logos/DEMO0009.svg",
+    "baikeUrl": ""
+  },
+  "DEMO0012": {
+    "department": "教育部（示例）",
+    "location": "北京市",
+    "provinceShort": "北京",
+    "remark": "演示数据，非真实院校信息",
+    "is985": false,
+    "is211": false,
+    "isDoubleFirstClass": false,
+    "website": "https://example.edu.cn",
+    "intro": "【演示数据】此为开源仓库内置的模拟院校条目，仅供验证地图与筛选功能。获取真实数据请见 DATA_SOURCES.md 与 scripts/README.md。",
+    "majors": [
+      "示例专业A",
+      "示例专业B"
+    ],
+    "photo": "",
+    "logo": "assets/logos/DEMO0012.svg",
+    "baikeUrl": ""
+  },
+  "DEMO0013": {
+    "department": "教育部（示例）",
+    "location": "湖南省",
+    "provinceShort": "湖南",
+    "remark": "演示数据，非真实院校信息",
+    "is985": true,
+    "is211": true,
+    "isDoubleFirstClass": true,
+    "website": "https://example.edu.cn",
+    "intro": "【演示数据】此为开源仓库内置的模拟院校条目，仅供验证地图与筛选功能。获取真实数据请见 DATA_SOURCES.md 与 scripts/README.md。",
+    "majors": [
+      "示例专业A",
+      "示例专业B"
+    ],
+    "photo": "",
+    "logo": "assets/logos/DEMO0013.svg",
+    "baikeUrl": ""
+  }
+}

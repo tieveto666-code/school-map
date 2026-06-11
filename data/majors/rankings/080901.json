@@ -1,0 +1,22 @@
+{
+  "major": {
+    "code": "080901",
+    "name": "计算机科学与技术"
+  },
+  "year": 2025,
+  "source": "演示数据",
+  "records": [
+    {
+      "schoolCode": "DEMO0001",
+      "schoolName": "示例大学甲",
+      "rank": 1,
+      "tag": "A+"
+    },
+    {
+      "schoolCode": "DEMO0002",
+      "schoolName": "示例大学乙",
+      "rank": 2,
+      "tag": "A"
+    }
+  ]
+}

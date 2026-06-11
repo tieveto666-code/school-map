@@ -1,0 +1,50 @@
+.DS_Store
+Thumbs.db
+
+# Python
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+
+# Archives and build output
+*.zip
+*.tar
+*.tar.gz
+dist/
+build/
+
+# Large media
+*.mp4
+*.mov
+*.m4v
+*.avi
+*.mkv
+*.webm
+
+# Locally fetched raw data (do not commit to public repo)
+data/raw/*.html
+data/raw/*.xls
+data/raw/*.xlsx
+data/raw/*.csv
+!data/raw/*.sample
+data/raw/*.json
+!data/raw/*.sample.json
+
+# Fetch caches
+data/scores/.elite_fetch_cache.json
+data/majors/.fetch_cache.json
+data/baike/.fetch_cache.json
+
+# Full datasets generated locally (keep demo files tracked explicitly)
+data/schools.json

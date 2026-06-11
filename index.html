@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>全国本科院校分布图（Demo 演示版）</title>
+  <link rel="stylesheet" href="css/style.css?v=demo">
+  <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <aside id="filter-panel" class="panel">
+      <div class="panel-header">
+        <h2>院校查询</h2>
+        <button id="toggle-panel" class="btn-icon" title="折叠面板">−</button>
+      </div>
+      <div class="panel-body">
+        <div class="stat-badge">共 <span id="total-count">0</span> 所</div>
+        <div id="data-meta" class="data-meta"></div>
+        <label class="field">
+          <span>学校名称</span>
+          <input type="text" id="search-name" placeholder="输入校名关键词（模糊）">
+        </label>
+        <label class="field">
+          <span>归属省份</span>
+          <select id="filter-province"><option value="">全部省份</option></select>
+        </label>
+        <label class="field">
+          <span>学校类型（可多选）</span>
+          <div id="filter-types" class="checkbox-group"></div>
+        </label>
+        <label class="field">
+          <span>学校性质（可多选）</span>
+          <div id="filter-natures" class="checkbox-group"></div>
+        </label>
+        <label class="field">
+          <span>年份</span>
+          <select id="filter-year">
+            <option value="2025" selected>2025</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+          </select>
+        </label>
+        <label class="field row">
+          <span>分数区间</span>
+          <div class="range-inputs">
+            <input type="number" id="score-min" placeholder="最低分" min="300" max="750">
+            <span>—</span>
+            <input type="number" id="score-max" placeholder="最高分" min="300" max="750">
+          </div>
+        </label>
+        <button id="reset-filters" class="btn-secondary">重置筛选</button>
+      </div>
+    </aside>
+
+    <aside id="ranking-panel" class="panel ranking-panel">
+      <div class="panel-header">
+        <h2>院校专业排名</h2>
+        <button id="toggle-ranking-panel" class="btn-icon" title="折叠面板">−</button>
+      </div>
+      <div class="panel-body">
+        <div class="field" id="major-search-wrap">
+          <div class="field-label-row">
+            <label for="major-search">专业名称</label>
+            <button type="button" id="open-major-catalog" class="btn-link">专业目录</button>
+          </div>
+          <input type="text" id="major-search" placeholder="搜索专业，如：计算机科学与技术" autocomplete="off">
+          <ul id="major-suggest-list" class="major-suggest-list hidden"></ul>
+        </div>
+        <p id="major-rank-summary" class="major-rank-summary">请选择或搜索专业查看排名</p>
+        <div id="major-rank-list" class="major-rank-list">
+          <p class="major-rank-empty">演示数据 · 真实排名请见 DATA_SOURCES.md</p>
+        </div>
+      </div>
+    </aside>
+
+    <div class="map-wrap">
+      <div class="map-main" style="position:relative;flex:1;min-height:0;min-width:0">
+        <main id="map-container"></main>
+        <div id="scope-note" class="scope-note" style="position:absolute;left:12px;bottom:12px;z-index:10">
+          <div class="scope-note-head">
+            <strong>统计口径</strong>
+            <span class="scope-help-wrap">
+              <span class="scope-help" tabindex="0" aria-label="查看统计口径说明">?</span>
+              <div id="scope-tip" class="scope-tip" role="tooltip" hidden></div>
+            </span>
+          </div>
+          <p id="scope-note-text">加载中…</p>
+        </div>
+      </div>
+      <aside id="analytics-panel" class="analytics-panel hidden">
+        <div class="analytics-header">
+          <h3 id="analytics-title">省份分析</h3>
+          <button id="close-analytics" class="btn-icon-light">×</button>
+        </div>
+        <p id="analytics-summary" class="analytics-summary"></p>
+        <div id="analytics-pie" class="chart-box"></div>
+        <p class="chart-label">高校类型占比</p>
+        <div id="analytics-line" class="chart-box"></div>
+        <p class="chart-label">历年录取平均分趋势</p>
+        <p class="chart-label analytics-list-title">本省院校列表</p>
+        <div id="analytics-school-list" class="analytics-school-list"></div>
+      </aside>
+    </div>
+
+    <div id="loading-overlay" class="loading-overlay">
+      <div class="loading-spinner"></div>
+      <p class="loading-text">正在加载…</p>
+    </div>
+    <footer id="footer">
+      <p>平台代码完整可用 · 当前数据为模拟演示 · 真实院校数据请自行获取，见 DATA_SOURCES.md</p>
+    </footer>
+  </div>
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div class="modal" id="school-modal">
+      <button class="modal-close" id="modal-close">×</button>
+      <div class="modal-content" id="modal-content"></div>
+    </div>
+  </div>
+  <div id="major-catalog-overlay" class="modal-overlay hidden">
+    <div class="modal modal-catalog" id="major-catalog-modal">
+      <button class="modal-close" id="major-catalog-close" type="button">×</button>
+      <div class="modal-content major-catalog-content">
+        <h3 class="major-catalog-title">本科专业目录</h3>
+        <p class="major-catalog-desc">共 <span id="major-catalog-count">0</span> 个专业 · 当前为演示数据</p>
+        <input type="text" id="major-catalog-search" class="major-catalog-search" placeholder="在目录中搜索专业名称、门类或专业类…" autocomplete="off">
+        <div class="major-catalog-body">
+          <nav id="major-catalog-nav" class="major-catalog-nav"></nav>
+          <div id="major-catalog-detail" class="major-catalog-detail"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/map.js?v=demo"></script>
+  <script src="js/analytics.js?v=demo"></script>
+  <script src="js/modal.js?v=demo"></script>
+  <script src="js/major-ranking.js?v=demo"></script>
+  <script src="js/app.js?v=demo"></script>
+</body>
+</html>

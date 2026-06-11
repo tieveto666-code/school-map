@@ -1,0 +1,7 @@
+{
+  "_readme": "复制为 school_tags.json 后，按教育部公开名单填写校名。school_tags.json 已被 .gitignore 排除，请勿提交到公开仓库。",
+  "schools985": ["示例大学甲"],
+  "schools211Only": ["示例理工大学"],
+  "doubleFirstClass": ["示例大学甲", "示例理工大学"],
+  "doubleFirstClassA": ["示例大学甲"]
+}
