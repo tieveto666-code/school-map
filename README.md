@@ -1,5 +1,7 @@
 # 全国本科院校分布图
 
+**在线演示：** [https://tieveto666-code.github.io/school-map/](https://tieveto666-code.github.io/school-map/)
+
 ## 本仓库提供什么
 
 | 类别 | 内容 | 说明 |
@@ -47,7 +49,7 @@ python3 scripts/fetch_major_rankings.py  # 可选
 - `data/schools.details.json` — 学校详情
 - `data/scores/{provinceCode}/{year}.json` — 分省录取分
 - `data/majors/index.json`、`data/majors/rankings/*.json` — 专业排名
-- `assets/logos/`、`assets/photos/` — 校徽与图片（需确认授权）
+- `assets/logos/`、`assets/photos/` — 校徽与图片
 
 ## 项目结构
 
@@ -72,19 +74,4 @@ LICENSE
 
 ## GitHub Pages
 
-纯静态项目，上传 GitHub 后可在仓库 Settings → Pages 中启用：分支选 `main`，目录选仓库根目录 `/`。
-
-## 推送前自检
-
-在仓库根目录（即本文件夹）执行：
-
-```bash
-# 确认无真实校名泄漏（应无输出）
-grep -r "北京大学\|清华大学" data/ assets/ || true
-
-# 确认 scripts 中无真实校名（应无输出）
-grep -r "北京大学\|清华大学" scripts/ || true
-
-# 确认 raw 目录无大体积原始文件
-ls -la data/raw/
-```
+本项目已部署在线演示（见文首链接）。若自行 fork 后需启用 Pages，可在仓库 Settings → Pages 中选择分支 `main`、目录 `/`。
