@@ -47,14 +47,16 @@ PORT=8081 python3 server.py
 
 ```text
 用户输入问题
--> 前端携带 sessionId 调用 /api/chat
--> 后端解析学校、省份、专业、分数、年份和查询意图
--> 从本地 JSON 数据检索相关 evidence
--> 拼接系统提示词、对话摘要/最近对话、evidence JSON 和用户问题
--> 调用 DeepSeek
--> 前端展示回复
--> 后端记录本轮对话，每 10 轮自动摘要上下文
+-> 识别意图
+-> 提取词槽
+-> alias 归一化
+-> 基于词槽从本地 JSON 中取相关数据
+-> 组装成 evidence JSON
+-> 把 evidence JSON + 系统提示词 + 对话上下文 + 用户问题 发给 DeepSeek
+-> DeepSeek 总结、解释、组织自然语言回复
 ```
+
+DeepSeek 不直接查数据，也不生成 SQL；后端负责基于词槽从本地 JSON 取数，模型只负责基于 evidence JSON 总结回答。
 
 ## 替换真实数据
 

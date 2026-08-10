@@ -24,9 +24,9 @@
         </div>
         <div class="qa-header-actions">
           <span class="qa-help-wrap">
-            <button class="qa-help" type="button" aria-label="查看智能问数工作流说明" aria-describedby="qa-workflow-tip">?</button>
+            <button class="qa-help" type="button" aria-label="查看智能问答流程说明" aria-describedby="qa-workflow-tip">?</button>
             <span id="qa-workflow-tip" class="qa-help-tip" role="tooltip">
-              智能问数工作流：用户输入问题后，前端携带会话 ID 请求本地 /api/chat；后端识别学校、省份、专业、分数、年份和查询意图；从本地院校数据、专业排名、录取分中检索相关证据，生成 evidence JSON；再拼接系统提示词、对话摘要/最近对话和用户问题调用 DeepSeek；模型返回后前端展示答案，并且每 10 轮自动总结上下文以控制输入长度。
+              智能问答流程：用户问题进入后端后，先识别意图，再提取学校、省份、年份、分数、专业等词槽；随后通过 data/aliases.json 做简称和上下文归一化；后端基于词槽从本地 JSON 取相关数据，组装成 evidence JSON；最后把 evidence JSON、系统提示词、对话上下文和用户问题发给 DeepSeek，由 DeepSeek 总结、解释并组织自然语言回复。
             </span>
           </span>
           <button id="qa-close" class="qa-close" type="button" aria-label="关闭智能问答">×</button>
