@@ -1,9 +1,7 @@
 {
-  "_readme": "复制为 school_details.json 后填写院校官网、简介等。school_details.json 已被 .gitignore 排除。",
   "示例大学甲": {
     "website": "https://example.edu.cn",
-    "intro": "本地详情示例条目，请自行替换为真实公开信息。",
-    "majors": ["示例专业A", "示例专业B"],
-    "photo": ""
+    "intro": "演示详情，不代表真实院校。",
+    "majors": ["示例专业A", "示例专业B"]
   }
 }

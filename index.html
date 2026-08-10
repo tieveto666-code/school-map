@@ -5,10 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>全国本科院校分布图（Demo 演示版）</title>
   <link rel="stylesheet" href="css/style.css?v=demo">
-  <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+  <script src="assets/vendor/echarts.min.js?v=demo"></script>
 </head>
 <body>
   <div id="app">
+    <button id="qa-entry" class="qa-entry" type="button" aria-label="打开智能问答" title="智能问答">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3.2l1.35 3.6 3.6 1.35-3.6 1.35L12 13.1l-1.35-3.6-3.6-1.35 3.6-1.35L12 3.2z"/>
+        <path d="M18.2 12.6l.8 2.1 2.1.8-2.1.8-.8 2.1-.8-2.1-2.1-.8 2.1-.8.8-2.1z"/>
+        <path d="M6.4 13.8l.65 1.75 1.75.65-1.75.65-.65 1.75-.65-1.75L4 16.2l1.75-.65.65-1.75z"/>
+      </svg>
+    </button>
+    <section id="qa-panel" class="qa-panel hidden" aria-label="智能问答面板">
+      <div class="qa-header">
+        <div>
+          <h2>智能问答</h2>
+          <span class="qa-model-name">DeepSeek</span>
+        </div>
+        <div class="qa-header-actions">
+          <span class="qa-help-wrap">
+            <button class="qa-help" type="button" aria-label="查看智能问数工作流说明" aria-describedby="qa-workflow-tip">?</button>
+            <span id="qa-workflow-tip" class="qa-help-tip" role="tooltip">
+              智能问数工作流：用户输入问题后，前端携带会话 ID 请求本地 /api/chat；后端识别学校、省份、专业、分数、年份和查询意图；从本地院校数据、专业排名、录取分中检索相关证据，生成 evidence JSON；再拼接系统提示词、对话摘要/最近对话和用户问题调用 DeepSeek；模型返回后前端展示答案，并且每 10 轮自动总结上下文以控制输入长度。
+            </span>
+          </span>
+          <button id="qa-close" class="qa-close" type="button" aria-label="关闭智能问答">×</button>
+        </div>
+      </div>
+      <div id="qa-messages" class="qa-messages" aria-live="polite">
+        <div class="qa-message qa-message-assistant">
+          <p>你好，我会调用 DeepSeek，并基于当前仓库的演示数据或你本地替换后的真实数据回答问题。</p>
+        </div>
+      </div>
+      <div class="qa-examples" aria-label="示例问题">
+        <button type="button" data-question="北京有哪些985院校？">北京985</button>
+        <button type="button" data-question="计算机科学与技术专业排名怎么看？">计算机排名</button>
+        <button type="button" data-question="600分左右怎么筛选院校？">600分筛选</button>
+      </div>
+      <form id="qa-form" class="qa-form">
+        <input id="qa-input" type="text" autocomplete="off" placeholder="输入你的问题">
+        <button type="submit" aria-label="发送问题">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 12l15-8-4.8 16-3.1-6.3L4 12z"/>
+          </svg>
+        </button>
+      </form>
+    </section>
+
     <aside id="filter-panel" class="panel">
       <div class="panel-header">
         <h2>院校查询</h2>
@@ -108,7 +151,7 @@
       <p class="loading-text">正在加载…</p>
     </div>
     <footer id="footer">
-      <p>平台代码完整可用 · 当前数据为模拟演示 · 真实院校数据请自行获取，见 DATA_SOURCES.md</p>
+      <p>当前为演示数据包 · 内置院校与分数均为模拟示例 · 真实数据来源与构建方式见 DATA_SOURCES.md</p>
     </footer>
   </div>
   <div id="modal-overlay" class="modal-overlay hidden">
@@ -136,5 +179,6 @@
   <script src="js/modal.js?v=demo"></script>
   <script src="js/major-ranking.js?v=demo"></script>
   <script src="js/app.js?v=demo"></script>
+  <script src="js/qa-chat.js?v=demo"></script>
 </body>
 </html>

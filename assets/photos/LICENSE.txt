@@ -1,7 +1,1 @@
-Photos are not included in this public demo repository.
-
-If you add photos later, keep one attribution entry per file, including:
-- original URL
-- author or rights holder
-- license name and license URL
-- date accessed
+Photos are not included in the public demo repository.

@@ -30,23 +30,14 @@ YEARS = (2023, 2024, 2025)
 EXCLUDE_BATCH = ("艺术", "体育", "专项", "提前", "单招", "高水平")
 REGULAR_BATCH = ("本科批", "普通类一段", "普通类", "本科一批", "本一", "一段", "二段")
 
-ALIASES_FILE = ROOT / "data" / "raw" / "name_aliases.json"
-ALIASES_SAMPLE = ROOT / "data" / "raw" / "name_aliases.sample.json"
-_name_aliases_cache: dict | None = None
-
-
-def load_name_aliases() -> dict:
-    global _name_aliases_cache
-    if _name_aliases_cache is not None:
-        return _name_aliases_cache
-    path = ALIASES_FILE if ALIASES_FILE.exists() else ALIASES_SAMPLE
-    if not path.exists():
-        _name_aliases_cache = {}
-        return _name_aliases_cache
-    with open(path, encoding="utf-8") as f:
-        data = json.load(f)
-    _name_aliases_cache = {k: v for k, v in data.items() if not k.startswith("_")}
-    return _name_aliases_cache
+NAME_ALIASES = {
+    "中国矿业大学（北京）": "中国矿业大学(北京)",
+    "中国石油大学（北京）": "中国石油大学(北京)",
+    "中国地质大学（北京）": "中国地质大学(北京)",
+    "中国地质大学（武汉）": "中国地质大学(武汉)",
+    "中国石油大学（华东）": "中国石油大学(华东)",
+    "华北电力大学": "华北电力大学",
+}
 
 
 def load_json(path: Path):
@@ -66,7 +57,7 @@ def elite_schools():
 
 
 def api_school_name(name: str) -> str:
-    return load_name_aliases().get(name, name)
+    return NAME_ALIASES.get(name, name)
 
 
 def is_regular_batch(batch_name: str) -> bool:

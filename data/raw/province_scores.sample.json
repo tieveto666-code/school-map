@@ -1,24 +1,11 @@
 {
-  "_readme": "复制为 province_scores.json 后填入各省投档线。province_scores.json 已被 .gitignore 排除。键为省份代码（如 beijing）。",
   "beijing": {
-    "province": "北京市",
-    "year": 2024,
-    "subjectTrack": "演示",
-    "sourceUrl": "",
-    "sourceDate": "2025-01-01",
-    "records": [
+    "2025": [
       {
         "schoolCode": "DEMO0001",
         "schoolName": "示例大学甲",
         "minScore": 680,
         "minRank": 500,
-        "batch": "本科批"
-      },
-      {
-        "schoolCode": "DEMO0002",
-        "schoolName": "示例大学乙",
-        "minScore": 685,
-        "minRank": 400,
         "batch": "本科批"
       }
     ]
