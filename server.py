@@ -17,6 +17,7 @@ ROOT = pathlib.Path(__file__).resolve().parent
 SCHOOLS_DATA_PATH = ROOT / "data" / "schools.json"
 SCHOOLS_INDEX_PATH = ROOT / "data" / "schools.index.json"
 SCHOOLS_DETAILS_PATH = ROOT / "data" / "schools.details.json"
+ALIASES_DATA_PATH = ROOT / "data" / "aliases.json"
 PROVINCES_DATA_PATH = ROOT / "data" / "provinces.json"
 MAJORS_INDEX_PATH = ROOT / "data" / "majors" / "index.json"
 MAJOR_RANKINGS_DIR = ROOT / "data" / "majors" / "rankings"
@@ -72,6 +73,42 @@ SCHOOL_ALIASES = {
   "川大": "四川大学",
   "西交": "西安交通大学",
   "哈工大": "哈尔滨工业大学",
+}
+
+# 常见宏观区域 → 省级行政区（按常见高考/统计口径）
+REGION_PROVINCES = {
+  "西部": [
+    "重庆市", "四川省", "贵州省", "云南省", "西藏自治区",
+    "陕西省", "甘肃省", "青海省", "宁夏回族自治区", "新疆维吾尔自治区",
+    "广西壮族自治区", "内蒙古自治区",
+  ],
+  "西部地区": [
+    "重庆市", "四川省", "贵州省", "云南省", "西藏自治区",
+    "陕西省", "甘肃省", "青海省", "宁夏回族自治区", "新疆维吾尔自治区",
+    "广西壮族自治区", "内蒙古自治区",
+  ],
+  "东部": [
+    "北京市", "天津市", "河北省", "上海市", "江苏省", "浙江省",
+    "福建省", "山东省", "广东省", "海南省",
+  ],
+  "东部地区": [
+    "北京市", "天津市", "河北省", "上海市", "江苏省", "浙江省",
+    "福建省", "山东省", "广东省", "海南省",
+  ],
+  "中部": [
+    "山西省", "安徽省", "江西省", "河南省", "湖北省", "湖南省",
+  ],
+  "中部地区": [
+    "山西省", "安徽省", "江西省", "河南省", "湖北省", "湖南省",
+  ],
+  "东北": ["辽宁省", "吉林省", "黑龙江省"],
+  "东北地区": ["辽宁省", "吉林省", "黑龙江省"],
+  "华北": ["北京市", "天津市", "河北省", "山西省", "内蒙古自治区"],
+  "华东": ["上海市", "江苏省", "浙江省", "安徽省", "福建省", "江西省", "山东省"],
+  "华南": ["广东省", "广西壮族自治区", "海南省"],
+  "华中": ["河南省", "湖北省", "湖南省"],
+  "西南": ["重庆市", "四川省", "贵州省", "云南省", "西藏自治区"],
+  "西北": ["陕西省", "甘肃省", "青海省", "宁夏回族自治区", "新疆维吾尔自治区"],
 }
 
 MAJOR_KEYWORDS = [
@@ -262,16 +299,122 @@ def load_score_index():
   return scores
 
 
+def available_score_years(scores):
+  years = sorted({
+    year
+    for by_year in scores.values()
+    for year in by_year.keys()
+    if re.fullmatch(r"20\d{2}", str(year))
+  })
+  return years
+
+
+def resolve_year_alias_value(value, score_years):
+  value = str(value or "").strip()
+  if not value:
+    return ""
+  if re.fullmatch(r"20\d{2}", value):
+    return value
+  if not score_years:
+    return ""
+
+  latest = score_years[-1]
+  if value == "latest":
+    return latest
+  if value == "previous":
+    return score_years[-2] if len(score_years) >= 2 else latest
+  if value == "two_years_ago":
+    return score_years[-3] if len(score_years) >= 3 else latest
+  return value
+
+
+def canonical_province_name(value, provinces):
+  value = str(value or "").strip()
+  if not value:
+    return ""
+  for province in provinces["items"]:
+    if value in {
+      str(province.get("code") or ""),
+      str(province.get("name") or ""),
+      str(province.get("shortName") or ""),
+    }:
+      return province.get("name") or ""
+  return value
+
+
+def load_alias_index(schools, provinces, scores):
+  alias_data = load_json(ALIASES_DATA_PATH, {})
+  score_years = available_score_years(scores)
+
+  school_aliases = {}
+  for name in schools["by_name"].keys():
+    school_aliases[name] = name
+  school_aliases.update(SCHOOL_ALIASES)
+  school_aliases.update(alias_data.get("schools") or {})
+  school_aliases = {
+    str(alias): str(name)
+    for alias, name in school_aliases.items()
+    if alias and name and str(name) in schools["by_name"]
+  }
+
+  province_aliases = {}
+  for province in provinces["items"]:
+    name = province.get("name")
+    short_name = province.get("shortName")
+    code = province.get("code")
+    for alias in (name, short_name, code):
+      if alias and name:
+        province_aliases[str(alias)] = str(name)
+  for alias, name in (alias_data.get("provinces") or {}).items():
+    canonical = canonical_province_name(name, provinces)
+    if alias and canonical:
+      province_aliases[str(alias)] = canonical
+
+  province_contexts = {}
+  templates = alias_data.get("provinceContextTemplates") or []
+  for province in provinces["items"]:
+    name = province.get("name")
+    short_name = province.get("shortName") or name
+    code = province.get("code") or ""
+    if not name:
+      continue
+    for template in templates:
+      alias = str(template).format(name=name, shortName=short_name, code=code)
+      if alias:
+        province_contexts[alias] = name
+  for alias, name in (alias_data.get("provinceContexts") or {}).items():
+    canonical = canonical_province_name(name, provinces)
+    if alias and canonical:
+      province_contexts[str(alias)] = canonical
+
+  year_aliases = {}
+  for alias, value in (alias_data.get("years") or {}).items():
+    resolved = resolve_year_alias_value(value, score_years)
+    if alias and resolved:
+      year_aliases[str(alias)] = resolved
+
+  return {
+    "meta": alias_data.get("meta") or {},
+    "schools": school_aliases,
+    "provinces": province_aliases,
+    "provinceContexts": province_contexts,
+    "years": year_aliases,
+    "scoreYears": score_years,
+  }
+
+
 def load_data_bundle():
   schools = load_school_index()
   provinces = load_province_index()
   majors = load_major_index()
   scores = load_score_index()
+  aliases = load_alias_index(schools, provinces, scores)
   return {
     "schools": schools,
     "provinces": provinces,
     "majors": majors,
     "scores": scores,
+    "aliases": aliases,
   }
 
 
@@ -348,12 +491,51 @@ def parse_top_n(question, default=20):
   return default
 
 
+def text_occurrences(text, needle):
+  start = 0
+  while needle:
+    index = text.find(needle, start)
+    if index == -1:
+      break
+    yield index, index + len(needle)
+    start = index + len(needle)
+
+
+def ranges_overlap(start, end, ranges):
+  return any(start < range_end and end > range_start for range_start, range_end in ranges)
+
+
+def add_unique(values, value):
+  if value and value not in values:
+    values.append(value)
+
+
+def sorted_alias_items(alias_map):
+  return sorted(alias_map.items(), key=lambda item: len(str(item[0])), reverse=True)
+
+
+def alias_match(kind, alias, value):
+  return {
+    "kind": kind,
+    "alias": alias,
+    "value": value,
+  }
+
+
 def extract_years(question):
   years = []
+  matches = []
   for value in re.findall(r"20\d{2}", question):
-    if value not in years:
-      years.append(value)
-  return years
+    add_unique(years, value)
+
+  for alias, value in sorted_alias_items(DATA["aliases"]["years"]):
+    if alias and alias in question:
+      add_unique(years, value)
+      matches.append(alias_match("year", alias, value))
+  return {
+    "values": years,
+    "matches": matches,
+  }
 
 
 def extract_score_values(question):
@@ -388,29 +570,66 @@ def extract_types(question):
   return type_flags
 
 
-def extract_provinces(question):
+def extract_regions(question):
   matches = []
-  aliases = DATA["schools"]["province_aliases"]
-  for alias in sorted(aliases.keys(), key=len, reverse=True):
-    if alias and alias in question:
-      province = aliases[alias]
-      if province not in matches:
-        matches.append(province)
+  for alias in sorted(REGION_PROVINCES.keys(), key=len, reverse=True):
+    if alias in question:
+      for province in REGION_PROVINCES[alias]:
+        add_unique(matches, province)
   return matches
+
+
+def extract_provinces(question, school_spans):
+  provinces = extract_regions(question)
+  alias_matches = []
+
+  for alias, province in sorted_alias_items(DATA["aliases"]["provinceContexts"]):
+    if not alias:
+      continue
+    for start, end in text_occurrences(question, alias):
+      add_unique(provinces, province)
+      alias_matches.append(alias_match("province_context", alias, province))
+      break
+
+  for alias, province in sorted_alias_items(DATA["aliases"]["provinces"]):
+    if not alias:
+      continue
+    for start, end in text_occurrences(question, alias):
+      if ranges_overlap(start, end, school_spans):
+        continue
+      add_unique(provinces, province)
+      alias_matches.append(alias_match("province", alias, province))
+      break
+
+  return {
+    "values": provinces,
+    "matches": alias_matches,
+  }
 
 
 def extract_schools(question):
-  matches = []
+  schools = []
+  alias_matches = []
+  spans = []
   by_name = DATA["schools"]["by_name"]
-  for alias, school_name in SCHOOL_ALIASES.items():
-    if alias in question and school_name in by_name and school_name not in matches:
-      matches.append(school_name)
-  for name in DATA["schools"]["school_names"]:
-    if name and name in question and name not in matches:
-      matches.append(name)
-    if len(matches) >= 10:
+  for alias, school_name in sorted_alias_items(DATA["aliases"]["schools"]):
+    if not alias or school_name not in by_name:
+      continue
+    for start, end in text_occurrences(question, alias):
+      if ranges_overlap(start, end, spans):
+        continue
+      add_unique(schools, school_name)
+      spans.append((start, end))
+      if alias != school_name:
+        alias_matches.append(alias_match("school", alias, school_name))
       break
-  return matches
+    if len(schools) >= 10:
+      break
+  return {
+    "values": schools,
+    "matches": alias_matches,
+    "spans": spans,
+  }
 
 
 def extract_majors(question):
@@ -443,18 +662,22 @@ def extract_majors(question):
 
 def analyze_question(question, session_state):
   text = question.strip()
+  school_result = extract_schools(text)
+  province_result = extract_provinces(text, school_result["spans"])
+  year_result = extract_years(text)
   return {
     "question": text,
     "topN": parse_top_n(text),
-    "years": extract_years(text),
+    "years": year_result["values"],
     "scores": extract_score_values(text),
-    "provinces": extract_provinces(text),
-    "schools": extract_schools(text),
+    "provinces": province_result["values"],
+    "schools": school_result["values"],
     "majors": extract_majors(text),
     "typeFilters": extract_types(text),
     "wantsRanking": any(k in text for k in ["排名", "排行", "前", "top", "TOP", "专业"]),
     "wantsScore": any(k in text for k in ["分", "分数", "位次", "录取", "投档", "能上"]),
     "wantsCount": any(k in text for k in ["多少", "几所", "数量", "统计", "分布"]),
+    "aliasMatches": (school_result["matches"] + province_result["matches"] + year_result["matches"])[:80],
     "hasContextSummary": bool(session_state.get("summary")),
     "recentTurnCount": len(session_state.get("recent_turns") or []),
   }
@@ -534,9 +757,36 @@ def collect_school_evidence(analysis):
       selected = [s for s in selected if school_matches_type(s, analysis["typeFilters"])]
 
   total_matches = len(selected)
+  # 名单类问题优先保留 name/province 轻量字段，尽量覆盖全部匹配结果
+  list_query = analysis["wantsCount"] or (
+    analysis["typeFilters"] and not analysis["wantsScore"] and not analysis["wantsRanking"]
+  )
+  if list_query and total_matches > MAX_SCHOOL_EVIDENCE:
+    compact = [
+      {
+        "code": s.get("code"),
+        "name": s.get("name"),
+        "province": s.get("province"),
+        "schoolType": s.get("schoolType"),
+        "is985": bool(s.get("is985")),
+        "is211": bool(s.get("is211")),
+        "isDoubleFirstClass": bool(s.get("isDoubleFirstClass")),
+      }
+      for s in selected
+    ]
+    return {
+      "matchedCount": total_matches,
+      "providedCount": len(compact),
+      "schools": compact,
+      "notes": notes + [f"名单查询已提供全部 {total_matches} 所匹配院校的精简字段。"],
+    }
+
   selected = selected[:MAX_SCHOOL_EVIDENCE]
   if total_matches > len(selected):
-    notes.append(f"学校匹配结果共 {total_matches} 所，仅提供前 {len(selected)} 所给模型。")
+    notes.append(
+      f"学校匹配结果共 {total_matches} 所，仅提供前 {len(selected)} 所明细给模型；"
+      "结果按数据顺序截断，不代表其余省份没有匹配院校。如需某区域/省份名单，请明确地区后重问。"
+    )
 
   return {
     "matchedCount": total_matches,
@@ -554,8 +804,10 @@ def collect_province_evidence(analysis, school_evidence):
   items = []
   target_provinces = provinces or sorted(DATA["schools"]["province_to_schools"].keys())
   include_school_names = not analysis["wantsScore"] or analysis["wantsCount"]
-  for province in target_provinces[:10]:
+  for province in target_provinces[:20]:
     schools = DATA["schools"]["province_to_schools"].get(province, [])
+    if analysis["typeFilters"]:
+      schools = [s for s in schools if school_matches_type(s, analysis["typeFilters"])]
     type_counts = {}
     nature_counts = {}
     for school in schools:

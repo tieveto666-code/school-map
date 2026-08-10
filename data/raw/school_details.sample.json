@@ -2,6 +2,9 @@
   "示例大学甲": {
     "website": "https://example.edu.cn",
     "intro": "演示详情，不代表真实院校。",
-    "majors": ["示例专业A", "示例专业B"]
+    "majors": [
+      "示例专业A",
+      "示例专业B"
+    ]
   }
 }

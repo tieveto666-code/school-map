@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "version": "demo",
+    "description": "公开演示版智能问答别名索引。仅包含虚构示例院校和通用省份/年份模板。",
+    "demo": true
+  },
+  "schools": {
+    "示大甲": "示例大学甲",
+    "示大乙": "示例大学乙",
+    "示例理工": "示例理工大学",
+    "示例师大": "示例师范大学",
+    "示例农大": "示例农业大学"
+  },
+  "provinces": {
+    "内蒙": "内蒙古自治区",
+    "广西": "广西壮族自治区",
+    "西藏": "西藏自治区",
+    "宁夏": "宁夏回族自治区",
+    "新疆": "新疆维吾尔自治区"
+  },
+  "provinceContextTemplates": [
+    "在{name}",
+    "在{shortName}",
+    "面向{name}",
+    "面向{shortName}",
+    "{name}考生",
+    "{shortName}考生",
+    "{name}省考生",
+    "{shortName}省考生",
+    "{name}录取",
+    "{shortName}录取",
+    "{name}投档",
+    "{shortName}投档",
+    "{name}分数",
+    "{shortName}分数"
+  ],
+  "provinceContexts": {
+    "北京孩子": "北京市",
+    "北京学生": "北京市",
+    "山东孩子": "山东省",
+    "山东学生": "山东省"
+  },
+  "years": {
+    "最新": "latest",
+    "最新一年": "latest",
+    "最近一年": "latest",
+    "今年": "latest",
+    "当前年份": "latest",
+    "去年": "previous",
+    "上一年": "previous",
+    "前年": "two_years_ago",
+    "前一年": "previous"
+  }
+}

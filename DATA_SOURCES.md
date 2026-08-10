@@ -21,6 +21,7 @@
 - 专业：读取 `data/majors/index.json` 与 `data/majors/rankings/*.json`
 - 分数：读取 `data/scores/{provinceCode}/{year}.json`
 - 省份：读取 `data/provinces.json`
+- 别名：读取 `data/aliases.json`，用于把学校简称、省份上下文短语、年份相对词归一化到标准字段
 
 后端会根据用户问题检索相关 evidence JSON，再把 evidence、系统提示词、会话上下文和用户问题发送给 DeepSeek。真实 `DEEPSEEK_API_KEY` 只应保存在本地 `.env`。
 

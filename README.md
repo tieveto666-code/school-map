@@ -15,6 +15,7 @@
 ## 重要说明
 
 - 代码完整保留，包括智能问答前端组件、本地 DeepSeek 代理后端、检索 evidence JSON、对话上下文和每 10 轮摘要逻辑。
+- `data/aliases.json` 单独维护智能问答别名索引，用于学校简称、省份上下文和年份相对词归一化。
 - 仓库不包含任何真实 API Key、访问令牌、私有数据或未脱敏原始文件。
 - DeepSeek API Key 请放在本地 `.env`，不要提交到 GitHub。
 - 第三方数据与素材需遵守各自来源条款，见 `DATA_SOURCES.md` 与 `NOTICE.md`。
@@ -89,6 +90,7 @@ assets/
   logos/DEMO*.svg
   photos/
 data/
+  aliases.json
   geo/china.json
   raw/
   schools.index.json
